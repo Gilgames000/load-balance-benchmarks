@@ -73,7 +73,7 @@ func randomFanOut(customers <-chan Customer, servers []chan Customer, d int, don
 	}
 }
 
-func shortestQueueSubsetBalancer(lambda, mu float64, n, d int, t time.Duration) []Customer {
+func shortestQueueSubsetBalancer(lambda, mu float64, n, d int, t time.Duration, m int) []Customer {
 	var result []Customer
 	done := make(chan struct{})
 	customers := make(chan Customer, 8192)
@@ -87,9 +87,14 @@ func shortestQueueSubsetBalancer(lambda, mu float64, n, d int, t time.Duration) 
 	go randomFanOut(customers, servers, d, done)
 	go generateCustomers(lambda, customers, done)
 
-	time.AfterFunc(t, func() {
-		close(done)
-	})
+	go func() {
+		select {
+		case <-time.After(t):
+			close(done)
+		case <-done:
+			return
+		}
+	}()
 
 	for {
 		select {
@@ -97,20 +102,23 @@ func shortestQueueSubsetBalancer(lambda, mu float64, n, d int, t time.Duration) 
 			return result
 		case c := <-out:
 			result = append(result, c)
+			if len(result) == m {
+				return result
+			}
 		}
 	}
 }
 
-func shortestQueueBalancer(lambda, mu float64, n int, t time.Duration) []Customer {
-	return shortestQueueSubsetBalancer(lambda, mu, n, n, t)
+func shortestQueueBalancer(lambda, mu float64, n int, t time.Duration, m int) []Customer {
+	return shortestQueueSubsetBalancer(lambda, mu, n, n, t, m)
 }
 
-func randomBalancer(lambda, mu float64, n int, t time.Duration) []Customer {
-	return shortestQueueSubsetBalancer(lambda, mu, n, 1, t)
+func randomBalancer(lambda, mu float64, n int, t time.Duration, m int) []Customer {
+	return shortestQueueSubsetBalancer(lambda, mu, n, 1, t, m)
 }
 
-func singleBigServer(lambda, mu float64, t time.Duration) []Customer {
-	return randomBalancer(lambda, mu, 1, t)
+func singleBigServer(lambda, mu float64, t time.Duration, m int) []Customer {
+	return randomBalancer(lambda, mu, 1, t, m)
 }
 
 func averageWaitingTime(customers []Customer) time.Duration {
@@ -124,18 +132,24 @@ func averageWaitingTime(customers []Customer) time.Duration {
 }
 
 func main() {
-	t := 20 * time.Second // time limit
-	//m := math.MaxInt32    // customer limit
-	lambda := 0.75
-	mu := 1.0
-	n := 10 // number of servers
+	var t time.Duration // time limit
+	var m int           // customers limit
+	var n int           // number of servers
+	var lambda float64  // arrival rate (total arrival rate is λn)
+	var mu float64      // service rate (total service rate is μn)
 
-	random := randomBalancer(lambda*float64(n), mu, n, t)
-	single := singleBigServer(lambda*float64(n), mu*float64(n), t)
-	sq := shortestQueueBalancer(lambda*float64(n), mu, n, t)
-	sq2 := shortestQueueSubsetBalancer(lambda*float64(n), mu, n, 2, t)
+	t = 60 * time.Second
+	m = math.MaxInt32
+	n = 10
+	lambda = 0.75
+	mu = 1.0
 
-	fmt.Println("Average waiting time")
+	random := randomBalancer(lambda*float64(n), mu, n, t, m)
+	single := singleBigServer(lambda*float64(n), mu*float64(n), t, m)
+	sq := shortestQueueBalancer(lambda*float64(n), mu, n, t, m)
+	sq2 := shortestQueueSubsetBalancer(lambda*float64(n), mu, n, 2, t, m)
+
+	fmt.Printf("Average waiting time (λ=%f, μ=%f, n=%d, t=%v, m=%d)", lambda, mu, n, t, m)
 	fmt.Printf("Random choice: %v\n", averageWaitingTime(random))
 	fmt.Printf("Single big server: %v\n", averageWaitingTime(single))
 	fmt.Printf("Shortest queue: %v\n", averageWaitingTime(sq))
