@@ -45,9 +45,9 @@ func serveCustomers(mu float64, customers <-chan Customer, out chan<- Customer, 
 		case <-done:
 			return
 		case c := <-customers:
+			c.WaitingTime = time.Now().Sub(c.ArrivalTime)
 			t := rand.ExpFloat64() / mu
 			serviceTime := float64ToDuration(t)
-			c.WaitingTime = time.Now().Sub(c.ArrivalTime)
 			<-time.After(serviceTime)
 			c.ServiceTime = serviceTime
 			out <- c
@@ -69,7 +69,7 @@ func randomFanOut(customers <-chan Customer, servers []chan Customer, done <-cha
 func randomBalancer(lambda, mu float64, n int, t time.Duration) []Customer {
 	var result []Customer
 	done := make(chan struct{})
-	customers := make(chan Customer, 2048)
+	customers := make(chan Customer, 8192)
 	servers := make([]chan Customer, n)
 	out := make(chan Customer, 2048)
 
@@ -94,6 +94,10 @@ func randomBalancer(lambda, mu float64, n int, t time.Duration) []Customer {
 	}
 }
 
+func singleBigServer(lambda, mu float64, t time.Duration) []Customer {
+	return randomBalancer(lambda, mu, 1, t)
+}
+
 func averageWaitingTime(customers []Customer) time.Duration {
 	var sum float64
 
@@ -106,12 +110,14 @@ func averageWaitingTime(customers []Customer) time.Duration {
 
 func main() {
 	t := 10 * time.Second
-	n := 5
-	lambda := 75.0
-	mu := 100.0
+	lambda := 0.75
+	mu := 1.0
+	n := 10
 
-	res := randomBalancer(lambda, mu, n, t)
-	fmt.Println(res)
-	fmt.Println(len(res))
-	fmt.Printf("Average waiting time: %v", averageWaitingTime(res))
+	random := randomBalancer(lambda*float64(n), mu, n, t)
+	single := singleBigServer(lambda*float64(n), mu*float64(n), t)
+
+	fmt.Println("Average waiting time")
+	fmt.Printf("Random choice: %v\n", averageWaitingTime(random))
+	fmt.Printf("Single big server: %v\n", averageWaitingTime(single))
 }
