@@ -4,6 +4,8 @@ import (
 	"fmt"
 	"math"
 	"math/rand"
+	"os"
+	"text/tabwriter"
 	"time"
 )
 
@@ -131,27 +133,32 @@ func averageWaitingTime(customers []Customer) time.Duration {
 	return float64ToDuration(sum / float64(len(customers)))
 }
 
+func totalTime(customers []Customer) time.Duration {
+	firstArrival := customers[0].ArrivalTime
+	lastCustomer := customers[len(customers)-1]
+	lastService := lastCustomer.ArrivalTime.Add(lastCustomer.WaitingTime)
+
+	return lastService.Sub(firstArrival)
+}
+
+func runBenchmarks(lambda, mu float64, serverCount int, timeLimit time.Duration, customersLimit int) {
+	random := randomBalancer(lambda*float64(serverCount), mu, serverCount, timeLimit, customersLimit)
+	single := singleBigServer(lambda*float64(serverCount), mu*float64(serverCount), timeLimit, customersLimit)
+	sq := shortestQueueBalancer(lambda*float64(serverCount), mu, serverCount, timeLimit, customersLimit)
+	sq2 := shortestQueueSubsetBalancer(lambda*float64(serverCount), mu, serverCount, 2, timeLimit, customersLimit)
+
+	const padding = 3
+	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', 0)
+	fmt.Fprintf(w, "BALANCER\tAVG_WAIT\tTIME\tCUSTOMERS\t\n")
+	fmt.Fprintf(w, "Rand\t%v\t%v\t%v\t\n", averageWaitingTime(random), totalTime(random), len(random))
+	fmt.Fprintf(w, "Single\t%v\t%v\t%v\t\n", averageWaitingTime(single), totalTime(single), len(single))
+	fmt.Fprintf(w, "SQ\t%v\t%v\t%v\t\n", averageWaitingTime(sq), totalTime(sq), len(sq))
+	fmt.Fprintf(w, "SQ(2)\t%v\t%v\t%v\t\n", averageWaitingTime(sq2), totalTime(sq2), len(sq2))
+	fmt.Fprintf(w, "(λ=%.3f, μ=%.3f, serverCount=%d, timeLimit=%v, customersLimit=%d)\n\n", lambda, mu, serverCount, timeLimit, customersLimit)
+	w.Flush()
+}
+
 func main() {
-	var t time.Duration // time limit
-	var m int           // customers limit
-	var n int           // number of servers
-	var lambda float64  // arrival rate (total arrival rate is λn)
-	var mu float64      // service rate (total service rate is μn)
-
-	t = 60 * time.Second
-	m = math.MaxInt32
-	n = 10
-	lambda = 0.75
-	mu = 1.0
-
-	random := randomBalancer(lambda*float64(n), mu, n, t, m)
-	single := singleBigServer(lambda*float64(n), mu*float64(n), t, m)
-	sq := shortestQueueBalancer(lambda*float64(n), mu, n, t, m)
-	sq2 := shortestQueueSubsetBalancer(lambda*float64(n), mu, n, 2, t, m)
-
-	fmt.Printf("Average waiting time (λ=%f, μ=%f, n=%d, t=%v, m=%d)", lambda, mu, n, t, m)
-	fmt.Printf("Random choice: %v\n", averageWaitingTime(random))
-	fmt.Printf("Single big server: %v\n", averageWaitingTime(single))
-	fmt.Printf("Shortest queue: %v\n", averageWaitingTime(sq))
-	fmt.Printf("Shortest queue subset (d=2): %v\n", averageWaitingTime(sq2))
+	runBenchmarks(0.75, 1.0, 10, 60*time.Second, 0xFEE1DEAD)
+	runBenchmarks(0.75, 1.0, 10, 1337*time.Hour, 500)
 }
