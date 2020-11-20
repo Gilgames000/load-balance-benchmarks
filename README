@@ -55,34 +55,6 @@ SQ(2)      14.104969374s   1m59.417087687s   2910
 (λ=1.250, μ=1.000, serverCount=25, timeLimit=2m0s, customersLimit=3000)
 
 BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       586.715572ms   1m59.473984477s   2115        
-Single     10.881968ms    1m59.959633927s   2083        
-SQ         267.505876ms   1m58.315891857s   2137        
-SQ(2)      276.241984ms   1m59.814670459s   2097        
-(λ=0.350, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
-
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       2.107153867s   1m23.837163491s   3000        
-Single     74.210111ms    1m20.621782923s   3000        
-SQ         498.383989ms   1m20.490048913s   3000        
-SQ(2)      810.994193ms   1m20.569394169s   3000        
-(λ=0.750, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
-
-BALANCER   AVG_WAIT       TIME             CUSTOMERS   
-Rand       4.560069871s   1m9.04119347s    3000        
-Single     609.044009ms   1m2.560061814s   3000        
-SQ         961.878561ms   1m2.445050517s   3000        
-SQ(2)      2.554756834s   1m1.606218874s   3000        
-(λ=1.000, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
-
-BALANCER   AVG_WAIT       TIME             CUSTOMERS   
-Rand       7.358254457s   1m2.759493523s   3000        
-Single     6.853885393s   1m0.733433093s   3000        
-SQ         6.748480655s   1m2.058167497s   3000        
-SQ(2)      6.490516304s   1m0.619329681s   3000        
-(λ=1.250, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
-
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
 Rand       499.234379ms   1m56.914214983s   2070        
 Single     11.653187ms    1m59.826802763s   2110        
 SQ         258.752393ms   1m59.528768449s   2111        
