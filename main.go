@@ -133,6 +133,27 @@ func averageWaitingTime(customers []Customer) time.Duration {
 	return float64ToDuration(sum / float64(len(customers)))
 }
 
+func averageResponseTime(customers []Customer) time.Duration {
+	var sum float64
+
+	for _, c := range customers {
+		sum += c.WaitingTime.Seconds()
+		sum += c.ServiceTime.Seconds()
+	}
+
+	return float64ToDuration(sum / float64(len(customers)))
+}
+
+func averageServiceTime(customers []Customer) time.Duration {
+	var sum float64
+
+	for _, c := range customers {
+		sum += c.ServiceTime.Seconds()
+	}
+
+	return float64ToDuration(sum / float64(len(customers)))
+}
+
 func totalTime(customers []Customer) time.Duration {
 	firstArrival := customers[0].ArrivalTime
 	lastCustomer := customers[len(customers)-1]
@@ -149,11 +170,11 @@ func runBenchmarks(lambda, mu float64, serverCount int, timeLimit time.Duration,
 
 	const padding = 3
 	w := tabwriter.NewWriter(os.Stdout, 0, 0, padding, ' ', 0)
-	fmt.Fprintf(w, "BALANCER\tAVG_WAIT\tTIME\tCUSTOMERS\t\n")
-	fmt.Fprintf(w, "Rand\t%v\t%v\t%v\t\n", averageWaitingTime(random), totalTime(random), len(random))
-	fmt.Fprintf(w, "Single\t%v\t%v\t%v\t\n", averageWaitingTime(single), totalTime(single), len(single))
-	fmt.Fprintf(w, "SQ\t%v\t%v\t%v\t\n", averageWaitingTime(sq), totalTime(sq), len(sq))
-	fmt.Fprintf(w, "SQ(2)\t%v\t%v\t%v\t\n", averageWaitingTime(sq2), totalTime(sq2), len(sq2))
+	fmt.Fprintf(w, "BALANCER\tAVG_WAIT\tAVG_SERV\tAVG_RESP\tTIME\tCUSTOMERS\t\n")
+	fmt.Fprintf(w, "Rand\t%v\t%v\t%v\t%v\t%v\t\n", averageWaitingTime(random), averageServiceTime(random), averageResponseTime(random), totalTime(random), len(random))
+	fmt.Fprintf(w, "Single\t%v\t%v\t%v\t%v\t%v\t\n", averageWaitingTime(single), averageServiceTime(single), averageResponseTime(single), totalTime(single), len(single))
+	fmt.Fprintf(w, "SQ\t%v\t%v\t%v\t%v\t%v\t\n", averageWaitingTime(sq), averageServiceTime(sq), averageResponseTime(sq), totalTime(sq), len(sq))
+	fmt.Fprintf(w, "SQ(2)\t%v\t%v\t%v\t%v\t%v\t\n", averageWaitingTime(sq2), averageServiceTime(sq2), averageResponseTime(sq2), totalTime(sq2), len(sq2))
 	fmt.Fprintf(w, "(λ=%.3f, μ=%.3f, serverCount=%d, timeLimit=%v, customersLimit=%d)\n\n", lambda, mu, serverCount, timeLimit, customersLimit)
 	w.Flush()
 }
