@@ -1,84 +1,83 @@
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       632.335156ms   1m57.840716229s   431         
-Single     65.281042ms    1m59.551590234s   434         
-SQ         223.290377ms   1m57.596913827s   402         
-SQ(2)      291.916111ms   1m57.307062976s   429         
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       682.722687ms   1.039412267s   1.722134955s   1m55.324282897s   429         
+Single     64.855137ms    106.958893ms   171.814031ms   1m59.643507246s   430         
+SQ         243.574055ms   910.153224ms   1.15372728s    1m58.953794182s   426         
+SQ(2)      286.917852ms   977.102467ms   1.264020319s   1m58.958042115s   419         
 (λ=0.350, μ=1.000, serverCount=10, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       1.81471546s    1m58.518384895s   826         
-Single     249.509652ms   1m59.624072663s   854         
-SQ         545.297873ms   1m59.264950625s   934         
-SQ(2)      1.07543243s    1m59.019196878s   887         
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       3.197364221s   1.029293073s   4.226657295s   1m59.695479343s   893         
+Single     244.069244ms   93.250679ms    337.319923ms   1m59.768712811s   881         
+SQ         600.321581ms   966.343071ms   1.566664652s   1m58.883511248s   934         
+SQ(2)      934.797119ms   1.029125095s   1.963922214s   1m59.845854115s   888         
 (λ=0.750, μ=1.000, serverCount=10, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       6.986436413s   1m57.785429779s   1053        
-Single     2.987998213s   1m59.602043393s   1151        
-SQ         1.113113105s   1m59.763016462s   1139        
-SQ(2)      4.198300595s   1m58.434776431s   1112        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       6.909347022s   986.846429ms   7.896193451s   1m58.911304327s   1088        
+Single     1.347783782s   99.242535ms    1.447026317s   1m59.861184447s   1146        
+SQ         2.970403497s   978.372296ms   3.948775794s   1m59.813918484s   1176        
+SQ(2)      4.232862818s   1.032773022s   5.26563584s    1m59.111945272s   1116        
 (λ=1.000, μ=1.000, serverCount=10, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT        TIME              CUSTOMERS   
-Rand       14.440867461s   1m57.616054253s   1103        
-Single     12.931815524s   1m59.81199937s    1168        
-SQ         13.485352462s   1m59.599150787s   1226        
-SQ(2)      13.393702413s   1m52.601288576s   1167        
+BALANCER   AVG_WAIT        AVG_SERV       AVG_RESP        TIME              CUSTOMERS   
+Rand       11.663287254s   981.015099ms   12.644302353s   1m59.796690571s   1163        
+Single     19.044028117s   108.922442ms   19.15295056s    1m59.806183502s   1099        
+SQ         7.764594871s    935.484927ms   8.700079798s    1m59.423578487s   1260        
+SQ(2)      13.475364254s   994.715295ms   14.470079549s   1m59.711352619s   1185        
 (λ=1.250, μ=1.000, serverCount=10, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       431.834934ms   1m59.780880836s   1059        
-Single     19.195967ms    1m59.856923702s   1063        
-SQ         297.129646ms   1m58.379299635s   1074        
-SQ(2)      270.881242ms   1m57.443742709s   1124        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       588.475724ms   1.012925136s   1.601400861s   1m59.523934001s   1098        
+Single     21.560152ms    39.406889ms    60.967041ms    1m59.813694225s   1090        
+SQ         260.781275ms   962.327869ms   1.223109145s   1m58.104812264s   1046        
+SQ(2)      329.35557ms    1.010175548s   1.339531119s   1m57.726521397s   1103        
 (λ=0.350, μ=1.000, serverCount=25, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       2.664676239s   1m58.685584583s   2149        
-Single     111.826808ms   1m59.93410927s    2310        
-SQ         562.915541ms   1m58.957509653s   2320        
-SQ(2)      799.360397ms   1m57.675295961s   2187        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       2.230193914s   994.730688ms   3.224924603s   1m57.615271893s   2195        
+Single     113.865869ms   40.243373ms    154.109243ms   1m59.93869483s    2259        
+SQ         566.707745ms   977.073691ms   1.543781437s   1m59.406167698s   2268        
+SQ(2)      744.227067ms   966.977432ms   1.711204499s   1m57.327994225s   2173        
 (λ=0.750, μ=1.000, serverCount=25, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       7.187787206s   1m59.738357927s   2721        
-Single     906.429872ms   1m59.942733212s   2970        
-SQ         1.381360864s   1m59.648891663s   2915        
-SQ(2)      1.795612257s   1m59.138557275s   2814        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       7.116313793s   1.00901362s    8.125327413s   1m59.832807074s   2693        
+Single     1.423350005s   39.1645ms      1.462514506s   1m59.58656915s    3000        
+SQ         2.88355707s    1.030341014s   3.913898085s   1m59.549914874s   2790        
+SQ(2)      3.734948071s   1.028725743s   4.763673814s   1m59.443188873s   2795        
 (λ=1.000, μ=1.000, serverCount=25, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT        TIME              CUSTOMERS   
-Rand       12.338383277s   1m58.135371223s   3000        
-Single     10.493159387s   1m59.504187653s   3000        
-SQ         13.129330212s   1m56.550901526s   2939        
-SQ(2)      14.104969374s   1m59.417087687s   2910        
+BALANCER   AVG_WAIT        AVG_SERV       AVG_RESP        TIME              CUSTOMERS   
+Rand       16.072123107s   1.012287688s   17.084410796s   1m58.84935002s    2850        
+Single     12.175223541s   39.545466ms    12.214769007s   1m58.91623326s    3000        
+SQ         12.010615328s   971.615304ms   12.982230633s   1m58.182276463s   3000        
+SQ(2)      12.788767147s   989.59542ms    13.778362568s   1m58.655898154s   2976        
 (λ=1.250, μ=1.000, serverCount=25, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       499.234379ms   1m56.914214983s   2070        
-Single     11.653187ms    1m59.826802763s   2110        
-SQ         258.752393ms   1m59.528768449s   2111        
-SQ(2)      282.72743ms    1m58.331775998s   2037        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       562.653518ms   996.43139ms    1.559084908s   1m59.555371641s   2037        
+Single     10.532824ms    19.794501ms    30.327326ms    1m59.910878285s   2064        
+SQ         306.145073ms   1.003099228s   1.309244301s   1m59.732794944s   2127        
+SQ(2)      258.710408ms   953.024004ms   1.211734413s   1m59.208928653s   2105        
 (λ=0.350, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME              CUSTOMERS   
-Rand       2.201186541s   1m23.713654482s   3000        
-Single     54.564444ms    1m19.9233274s     3000        
-SQ         527.277692ms   1m18.379589662s   3000        
-SQ(2)      845.378489ms   1m19.344934206s   3000        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME              CUSTOMERS   
+Rand       2.054998317s   975.490959ms   3.030489276s   1m21.146513059s   3000        
+Single     57.878135ms    20.257808ms    78.135944ms    1m22.214593394s   3000        
+SQ         483.734987ms   940.069841ms   1.423804828s   1m21.607108437s   3000        
+SQ(2)      853.010124ms   993.106932ms   1.846117057s   1m20.36393882s    3000        
 (λ=0.750, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME             CUSTOMERS   
-Rand       4.922063819s   1m8.154801005s   3000        
-Single     696.331336ms   1m2.039811259s   3000        
-SQ         976.630858ms   1m0.30854457s    3000        
-SQ(2)      2.279372082s   1m4.467424894s   3000        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME             CUSTOMERS   
+Rand       4.676832327s   1.003745277s   5.680577605s   1m8.459263099s   3000        
+Single     908.770167ms   20.673853ms    929.44402ms    1m3.838683247s   3000        
+SQ         1.203968231s   999.045914ms   2.203014146s   1m1.670560166s   3000        
+SQ(2)      2.188734476s   963.859971ms   3.152594448s   1m2.481991861s   3000        
 (λ=1.000, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
 
-BALANCER   AVG_WAIT       TIME             CUSTOMERS   
-Rand       7.967023649s   1m3.691083422s   3000        
-Single     6.785485009s   1m1.50553245s    3000        
-SQ         5.159287147s   1m0.625568537s   3000        
-SQ(2)      6.278625195s   1m0.024820204s   3000        
+BALANCER   AVG_WAIT       AVG_SERV       AVG_RESP       TIME             CUSTOMERS   
+Rand       7.421578735s   966.059839ms   8.387638575s   1m3.040276421s   3000        
+Single     5.632059601s   20.22351ms     5.652283111s   1m1.090489658s   3000        
+SQ         5.029123584s   970.898362ms   6.000021947s   59.649378343s    3000        
+SQ(2)      6.683209293s   986.673914ms   7.669883208s   1m2.117185859s   3000        
 (λ=1.250, μ=1.000, serverCount=50, timeLimit=2m0s, customersLimit=3000)
-
